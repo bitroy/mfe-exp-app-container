@@ -1,0 +1,8 @@
+services:
+    app-container:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: mfe-app-container
+        ports:
+            - "3001:80"
