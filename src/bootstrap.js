@@ -1,6 +1,6 @@
 import React from "react";
 import { CacheProvider, ThemeProvider } from "@emotion/react";
-import { init } from "@module-federation/enhanced/runtime";
+import { registerRemotes } from "@module-federation/enhanced/runtime";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createRoot } from "react-dom/client";
 
@@ -8,6 +8,7 @@ import App from "./App";
 import cache from "./emotionCache";
 import theme from "./theme";
 import { federationConfig } from "./federationConfig";
+
 
 const AppContainer = () => (
   <CacheProvider value={cache}>
@@ -19,7 +20,10 @@ const AppContainer = () => (
 );
 
 const mount = async (el) => {
-  await init(federationConfig());
+  const config = federationConfig();
+  if (config.remotes) {
+    registerRemotes(config.remotes);
+  }
   createRoot(el).render(<AppContainer />);
 };
 
